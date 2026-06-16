@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "世界": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "日期": {
+          "default": 1,
+          "type": "number"
+        },
+        "天气": {
+          "default": "晴",
+          "type": "string"
+        },
+        "季节": {
+          "default": "春天",
+          "type": "string"
+        },
+        "地点": {
+          "default": "家中",
+          "type": "string"
+        },
+        "时辰": {
+          "default": "子时",
+          "type": "string"
+        }
+      }
+    },
+    "陈婷婷": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "好感度": {
+          "default": 0,
+          "type": "number"
+        },
+        "欲望": {
+          "default": 0,
+          "type": "number"
+        },
+        "沉沦": {
+          "default": 0,
+          "type": "number"
+        },
+        "戒备": {
+          "default": 100,
+          "type": "number"
+        },
+        "状态": {
+          "default": "正常",
+          "type": "string"
+        }
+      }
+    },
+    "财富": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "铜钱": {
+          "default": 500,
+          "type": "number"
+        },
+        "银子": {
+          "default": 2,
+          "type": "number"
+        },
+        "金子": {
+          "default": 1,
+          "type": "number"
+        }
+      }
+    },
+    "任务": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "当前任务": {
+          "default": "第二天在同一个房间醒来",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
