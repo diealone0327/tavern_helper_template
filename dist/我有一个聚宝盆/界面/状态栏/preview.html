@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#0e0f20;color:#e0e0f0;padding:20px;display:flex;justify-content:center}
+.status-bar{width:100%;max-width:760px;background:#16182a;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.4)}
+.top-bar{background:linear-gradient(135deg,#1e2140,#2a2d50);padding:10px 20px;border-bottom:2px solid #3a3d6a}
+.top-line{display:flex;justify-content:center;gap:6px;font-size:12px;color:#888aac;margin-bottom:6px}
+.top-line .d{color:#3a3d6a}
+.tr{display:flex;justify-content:space-between;align-items:center}
+.tl{font-size:20px;font-weight:700;color:#ffd700;letter-spacing:1px}
+.te{font-size:13px;color:#a0a4c0;max-width:55%;text-align:right}
+.columns{display:flex;gap:1px;background:#1e2140}
+.c{flex:1;display:flex;flex-direction:column;gap:1px;background:#16182a}
+.cl{border-right:1px solid #252848}
+.p{background:#1e2140;padding:12px 14px}
+.pt{font-size:14px;font-weight:600;color:#c8cbe8;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pt .t{margin-left:auto;font-size:11px;color:#6a6e90}
+.pt .b{background:#3a3d6a;color:#c8cbe8;font-size:11px;padding:1px 7px;border-radius:8px;margin-left:auto}
+.s{display:flex;flex-direction:column;gap:5px}
+.sr{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #252848;font-size:13px}
+.l{color:#888aac}.v{color:#e0e0f0;font-weight:500}
+.g{color:#ffd700}.b{color:#60a5fa}.p{color:#c084fc}
+.e{text-align:center;color:#5a5c7a;padding:12px;font-style:italic;font-size:13px}
+.cs{text-align:center}
+.cn{font-size:16px;font-weight:600;color:#ffd700;margin-bottom:8px}
+.ar{display:flex;align-items:center;gap:6px;padding:4px 0}
+.al{font-size:12px;color:#888aac;width:42px}
+.at{flex:1;height:8px;background:#2a2d50;border-radius:4px;overflow:hidden}
+.af{height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6);border-radius:4px}
+.an{font-weight:600;font-size:14px;width:28px;text-align:center}
+.an.h{color:#4ade80}.an.m{color:#60a5fa}.an.l{color:#f87171}
+.ar2{font-size:12px;color:#a0a4c0;background:#252848;padding:1px 8px;border-radius:8px}
+.csub{display:flex;justify-content:center;gap:12px;margin-top:6px;font-size:12px;color:#888aac}
+.cstat{margin-top:6px;font-size:12px;color:#a0a4c0;font-style:italic;background:#252848;padding:4px 8px;border-radius:6px}
+.rs{text-align:center;color:#6a6e90;font-size:12px;padding:6px;font-style:italic}
+.gf{display:flex;flex-direction:column;gap:5px;padding:4px 0}
+.gr{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #252848;font-size:13px}
+.cb{display:flex;padding:4px 6px;background:#252848;cursor:pointer;font-size:12px;gap:4px}
+.cbn{flex:1;color:#c8cbe8}
+.cbc{background:#3a3d6a;color:#a0a4c0;padding:0 5px;border-radius:4px;font-size:10px}
+.ci{padding:3px 6px}
+.in{font-size:11px;color:#b0b4d0;padding:2px 0}
+.ti{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid #252848;font-size:13px}
+.tbm{background:#3b5998;color:#fff;font-size:11px;padding:1px 6px;border-radius:4px}
+.tt{color:#c8cbe8}
+</style></head><body><div class="status-bar">
+<div class="top-bar"><div class="top-line"><span>📍 青云宗·杂役院</span><span class="d">|</span><span>🗺️ 东域</span><span class="d">|</span><span>📅 第 1 天</span></div>
+<div class="tr"><span class="tl">✨ 我有一个聚宝盆</span><span class="te">📌 —</span></div></div>
+<div class="columns"><div class="c cl">
+<div class="p"><div class="pt">📊 主角</div><div class="s">
+<div class="sr"><span class="l">修为</span><span class="v g">炼气</span></div>
+<div class="sr"><span class="l">修为进度</span><span class="v">1/100</span></div>
+<div class="sr"><span class="l">灵根</span><span class="v">废灵根(五行杂灵根)</span></div>
+<div class="sr"><span class="l">体质</span><span class="v b">无</span></div>
+<div class="sr"><span class="l">战斗状态</span><span class="v">正常</span></div>
+<div class="sr"><span class="l">穿着</span><span class="v">粗布短打</span></div>
+<div class="sr"><span class="l">灵石</span><span class="v g">🪙 10</span></div>
+</div></div>
+<div class="p"><div class="pt clickable">📜 功法 <span class="t">▼</span></div><div class="e">尚未修炼功法</div></div>
+<div class="p"><div class="pt clickable">🔮 随身法宝 <span class="t">▼</span></div><div class="e">未装备法宝</div></div>
+<div class="p"><div class="pt clickable">🎒 储物袋 <span class="t">▼</span></div><div class="e">空空如也</div></div>
+</div><div class="c">
+<div class="p"><div class="pt">👤 在场角色</div><div class="cs"><div class="cn">柳如烟</div>
+<div class="ar"><span class="al">好感度</span><div class="at"><div class="af" style="width:45%"></div></div><span class="an m">5</span><span class="ar2">友好</span></div>
+<div class="csub">修为 筑基后期 · 体质 冰灵根</div>
+<div class="cstat">她今天看起来心情不错</div></div></div>
+<div class="p"><div class="pt">🔗 关系网 <span class="b">3</span><span class="t">▼</span></div><div class="rs">尚未与任何人建立深入关系</div></div>
+<div class="p"><div class="pt">📋 任务 <span class="t">▼</span></div><div class="ti"><span class="tbm">主线</span><span class="tt">熟悉聚宝盆</span></div></div>
+<div class="p"><div class="pt">🏺 聚宝盆</div><div class="s">
+<div class="sr"><span class="l">今日已使用</span><span class="v">❌ 否</span></div>
+<div class="sr"><span class="l">已用次数</span><span class="v">0</span></div>
+<div class="sr"><span class="l">孳生品级</span><span class="v g">凡器极品</span></div>
+</div></div></div></div></div></body></html>

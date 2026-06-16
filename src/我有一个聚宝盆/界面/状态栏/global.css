@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --c-granite: #3c493f;
+  --c-grey-olive: #7e8d85;
+  --c-ash-grey: #b3bfb8;
+  --c-mint-cream: #f0f7f4;
+  --c-celadon: #a2e3c4;
+  --c-sky: #b8d4e3;
+  --c-gold: #c9a96e;
+  --c-danger: #c46a6a;
+
+  --font-archive: 'Courier New', 'Microsoft YaHei', monospace;
+}

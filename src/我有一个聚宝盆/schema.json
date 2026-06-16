@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "主角": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "修为": {
+          "default": "炼气",
+          "type": "string"
+        },
+        "修为进度": {
+          "default": 1,
+          "type": "number"
+        },
+        "灵根": {
+          "default": "废灵根(五行杂灵根)",
+          "type": "string"
+        },
+        "体质": {
+          "default": "无",
+          "type": "string"
+        },
+        "灵石": {
+          "default": 10,
+          "type": "number"
+        },
+        "体质状态": {
+          "default": "正常",
+          "type": "string"
+        },
+        "穿着": {
+          "default": "一身洗得发白的粗布短打，脚穿草鞋",
+          "type": "string"
+        },
+        "随身法宝": {
+          "default": "无",
+          "type": "string"
+        }
+      }
+    },
+    "聚宝盆": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "今日已使用": {
+          "default": false,
+          "type": "boolean"
+        },
+        "已用次数": {
+          "default": 0,
+          "type": "number"
+        },
+        "上次放置": {
+          "default": "",
+          "type": "string"
+        },
+        "孳生品级": {
+          "default": "凡器极品",
+          "type": "string"
+        }
+      }
+    },
+    "储物袋": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "物品清单": {
+          "default": "{\"丹药\":{},\"法器\":{},\"材料\":{},\"符箓\":{},\"灵植\":{},\"杂物\":{}}",
+          "type": "string"
+        },
+        "物品总览": {
+          "default": "空空如也",
+          "type": "string"
+        }
+      }
+    },
+    "关系": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "当前互动对象": {
+          "default": "",
+          "type": "string"
+        },
+        "当前角色好感度": {
+          "default": 0,
+          "type": "number"
+        },
+        "当前角色关系标签": {
+          "default": "陌路",
+          "type": "string"
+        },
+        "当前角色修为": {
+          "default": "",
+          "type": "string"
+        },
+        "当前角色体质": {
+          "default": "",
+          "type": "string"
+        },
+        "当前角色状态描述": {
+          "default": "",
+          "type": "string"
+        },
+        "已结识角色": {
+          "default": "[]",
+          "type": "string"
+        },
+        "好感度概况": {
+          "default": "尚未与任何人建立深入关系",
+          "type": "string"
+        }
+      }
+    },
+    "任务": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "当前主线": {
+          "default": "熟悉聚宝盆",
+          "type": "string"
+        },
+        "当前支线": {
+          "default": "",
+          "type": "string"
+        },
+        "已完成任务": {
+          "default": "[]",
+          "type": "string"
+        }
+      }
+    },
+    "世界": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "天数": {
+          "default": 1,
+          "type": "number"
+        },
+        "地点": {
+          "default": "青云宗·杂役院",
+          "type": "string"
+        },
+        "地区": {
+          "default": "东域",
+          "type": "string"
+        },
+        "事件标记": {
+          "default": "",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
