@@ -12,17 +12,16 @@
     <div v-else class="panel-title">
       <span class="title-text">{{ title }}</span>
     </div>
-    <div v-if="!collapsible || open" class="panel-body">
-      <slot />
-    </div>
-    <div v-if="collapsible && open && empty" class="empty-state">
-      <slot name="empty">
-        <span class="empty-text">{{ emptyText }}</span>
-      </slot>
-    </div>
-    <div v-if="!collapsible && empty" class="empty-state">
-      <span class="empty-text">{{ emptyText }}</span>
-    </div>
+    <template v-if="!collapsible || open">
+      <div v-if="empty" class="empty-state">
+        <slot name="empty">
+          <span class="empty-text">{{ emptyText }}</span>
+        </slot>
+      </div>
+      <div v-else class="panel-body">
+        <slot />
+      </div>
+    </template>
   </div>
 </template>
 

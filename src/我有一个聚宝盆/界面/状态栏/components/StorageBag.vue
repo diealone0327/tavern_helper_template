@@ -4,9 +4,10 @@
     collapsible
     :open="open"
     :badge="totalCount > 0 ? totalCount : undefined"
+    :empty="totalCount === 0"
     @toggle="$emit('toggle')"
   >
-    <div v-if="totalCount > 0" class="storage-list">
+    <div class="storage-list">
       <div
         v-for="(items, category) in storageData"
         :key="category"
