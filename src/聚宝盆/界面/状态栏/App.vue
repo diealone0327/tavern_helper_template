@@ -2,98 +2,79 @@
   <div class="card">
     <BadgeBar />
 
-    <CollapsiblePanel
-      v-model="panels.法宝"
-      title="随身法宝"
-      :count="hasFaBao ? 1 : 0"
-    >
-      <div class="fa-bao-content">
-        <div v-if="hasFaBao" class="fa-bao-item">{{ store.data.主角.随身法宝 }}</div>
-        <div v-else class="empty-state">暂无随身法宝</div>
-      </div>
-    </CollapsiblePanel>
-
-    <CollapsiblePanel
-      v-model="panels.储物袋"
-      title="储物袋"
-      :count="storageCount"
-    >
-      <div v-if="storageCount > 0" class="storage-list">
-        <div
-          v-for="(items, category) in storageParsed"
-          :key="category as string"
-          class="category-section"
-        >
-          <div class="category-header" @click="toggleCategory(category as string)">
-            <span class="category-icon">{{ categoryIcons[category as string] }}</span>
-            <span class="category-name">{{ category }}</span>
-            <span class="category-count">{{ Object.keys(items as Record<string, unknown>).length }}</span>
+    <CollapsiblePanel v-model="panels.女主角" title="红颜知己" :count="activeHeroineCount">
+      <div class="heroine-list">
+        <div v-for="h in heroines" :key="h.key" class="heroine-item">
+          <div class="heroine-header">
+            <span class="heroine-name">{{ h.name }}</span>
+            <span class="heroine-stage" :class="h.stageClass">{{ h.data.好感阶段 }}</span>
           </div>
-          <div v-if="expandedCategories.has(category as string)" class="category-items">
-            <div
-              v-for="(item, name) in items as Record<string, unknown>"
-              :key="name as string"
-              class="storage-item"
-            >
-              <span class="item-name">{{ name }}</span>
-            </div>
+          <div class="heroine-detail">
+            <span class="detail-tag">❤ {{ h.data.好感度 }}</span>
+            <span class="detail-tag">{{ h.data.态度 }}</span>
+            <span class="detail-tag">{{ h.data.专属状态 }}</span>
+            <span v-if="h.data.羁绊触发" class="detail-tag tag-bond">羁绊</span>
           </div>
         </div>
       </div>
-      <div v-else class="empty-state">储物袋空空如也</div>
     </CollapsiblePanel>
 
-    <CollapsiblePanel
-      v-model="panels.当前角色"
-      title="当前角色信息"
-      :count="hasCurrentChar ? 1 : 0"
-    >
-      <div v-if="hasCurrentChar" class="char-info">
-        <div class="info-row"><span class="info-label">对象</span><span class="info-value">{{ store.data.关系.当前互动对象 }}</span></div>
-        <div class="info-row"><span class="info-label">好感度</span><span class="info-value" :class="affinityClass">{{ store.data.关系.当前角色好感度 }} · {{ store.data.关系.当前角色关系标签 }}</span></div>
-        <div class="info-row"><span class="info-label">修为</span><span class="info-value">{{ store.data.关系.当前角色修为 || '未知' }}</span></div>
-        <div class="info-row"><span class="info-label">体质</span><span class="info-value">{{ store.data.关系.当前角色体质 || '无' }}</span></div>
-        <div v-if="store.data.关系.当前角色状态描述" class="info-row">
-          <span class="info-label">状态</span><span class="info-value">{{ store.data.关系.当前角色状态描述 }}</span>
+    <CollapsiblePanel v-model="panels.储物袋" title="储物袋" :count="bagCount">
+      <InventoryView :items="store.data.储物袋" />
+    </CollapsiblePanel>
+
+    <CollapsiblePanel v-model="panels.仓库" title="仓库" :count="warehouseCount">
+      <InventoryView :items="store.data.仓库" />
+    </CollapsiblePanel>
+
+    <CollapsiblePanel v-model="panels.功法" title="功法" :count="gongfaCount">
+      <div v-if="gongfaCount > 0" class="gongfa-section">
+        <div class="gongfa-main">
+          <span class="detail-label">主修</span>
+          <span class="detail-value">{{ store.data.功法系统.当前主修 }}</span>
+        </div>
+        <div v-for="(info, name) in store.data.功法系统.功法列表" :key="name as string" class="gongfa-item">
+          <span class="gongfa-name">{{ name }}</span>
+          <span class="detail-tag">{{ info.品级 }}</span>
+          <span class="detail-tag">{{ info.属性 }}</span>
+          <span class="detail-tag">{{ info.熟练度 }}</span>
         </div>
       </div>
-      <div v-else class="empty-state">当前未与任何人互动</div>
+      <div v-else class="empty-state">暂未修习功法</div>
     </CollapsiblePanel>
 
-    <CollapsiblePanel
-      v-model="panels.关系网"
-      title="已结识角色"
-      :count="acquaintanceList.length"
-    >
-      <div v-if="acquaintanceList.length > 0" class="relation-list">
-        <div v-for="(char, idx) in acquaintanceList" :key="idx" class="relation-item">
-          <span class="rel-name">{{ char.name }}</span>
-          <span class="rel-affinity" :class="affinityTagClass(char.affinity)">{{ char.affinity }} · {{ char.tag }}</span>
-          <span v-if="char.realm" class="rel-realm">{{ char.realm }}</span>
-        </div>
-      </div>
-      <div v-else class="empty-state">{{ store.data.关系.好感度概况 }}</div>
-    </CollapsiblePanel>
-
-    <CollapsiblePanel
-      v-model="panels.任务"
-      title="任务"
-      :count="questCount"
-    >
+    <CollapsiblePanel v-model="panels.任务" title="任务" :count="questCount">
       <div class="quest-section">
         <div class="quest-row">
           <span class="quest-label">主线</span>
           <span class="quest-value">{{ store.data.任务.当前主线 }}</span>
         </div>
-        <div v-if="store.data.任务.当前支线" class="quest-row">
+        <div v-if="store.data.任务.进行中支线.length > 0" class="quest-row">
           <span class="quest-label">支线</span>
-          <span class="quest-value">{{ store.data.任务.当前支线 }}</span>
+          <span class="quest-value">{{ store.data.任务.进行中支线.join('、') }}</span>
         </div>
-        <div v-if="completedQuests.length > 0" class="quest-row">
+        <div v-if="store.data.任务.已完成任务.length > 0" class="quest-row">
           <span class="quest-label">已完成</span>
-          <span class="quest-value">{{ completedQuests.join('、') }}</span>
+          <span class="quest-value">{{ store.data.任务.已完成任务.join('、') }}</span>
         </div>
       </div>
+    </CollapsiblePanel>
+
+    <CollapsiblePanel v-model="panels.已结交" title="已结交" :count="store.data.已结交NPC.length">
+      <div v-if="store.data.已结交NPC.length > 0" class="npc-list">
+        <div v-for="(npc, idx) in store.data.已结交NPC" :key="idx" class="npc-item">
+          <div class="npc-header">
+            <span class="npc-name">{{ npc.姓名 }}</span>
+            <span class="detail-tag">{{ npc.修为 }}</span>
+          </div>
+          <div class="npc-detail">
+            <span class="detail-tag">❤ {{ npc.好感度 }}</span>
+            <span class="detail-tag">{{ npc.态度 }}</span>
+            <span v-if="npc.小任务" class="detail-tag tag-quest">{{ npc.小任务 }}</span>
+          </div>
+        </div>
+      </div>
+      <div v-else class="empty-state">尚未结交任何人</div>
     </CollapsiblePanel>
   </div>
 </template>
@@ -102,92 +83,58 @@
 import { useDataStore } from './store';
 import BadgeBar from './components/BadgeBar.vue';
 import CollapsiblePanel from './components/CollapsiblePanel.vue';
+import InventoryView from './components/InventoryView.vue';
 
 const store = useDataStore();
 
-// 法宝
-const hasFaBao = computed(() => store.data.主角.随身法宝 && store.data.主角.随身法宝 !== '无');
-
-// 储物袋
-const storageParsed = computed(() => {
-  try {
-    return JSON.parse(store.data.储物袋.物品清单) as Record<string, Record<string, unknown>>;
-  } catch {
-    return {};
-  }
-});
-const storageCount = computed(() => {
-  let total = 0;
-  for (const items of Object.values(storageParsed.value)) {
-    total += Object.keys(items).length;
-  }
-  return total;
+const heroines = computed(() => {
+  const list = [
+    { key: '柳如烟', name: '柳如烟', data: store.data.柳如烟 },
+    { key: '苏青棠', name: '苏青棠', data: store.data.苏青棠 },
+    { key: '叶灵儿', name: '叶灵儿', data: store.data.叶灵儿 },
+    { key: '白素曦', name: '白素曦', data: store.data.白素曦 },
+  ];
+  return list.map(h => ({
+    ...h,
+    stageClass: h.data.好感阶段 === '羁绊' ? 'stage-bond' : h.data.好感阶段 === '信任' ? 'stage-trust' : '',
+  }));
 });
 
-const categoryIcons: Record<string, string> = {
-  '丹药': '丹',
-  '法器': '器',
-  '材料': '材',
-  '符箓': '符',
-  '灵植': '植',
-  '杂物': '杂',
-};
+const activeHeroineCount = computed(() =>
+  heroines.value.filter(h => h.data.好感度 >= 4 || h.data.专属状态 !== '普通').length
+);
 
-const expandedCategories = reactive(new Set<string>());
-function toggleCategory(cat: string) {
-  if (expandedCategories.has(cat)) {
-    expandedCategories.delete(cat);
-  } else {
-    expandedCategories.add(cat);
-  }
-}
-
-// 当前角色
-const hasCurrentChar = computed(() => !!store.data.关系.当前互动对象);
-const affinityClass = computed(() => {
-  const v = store.data.关系.当前角色好感度;
-  if (v >= 8) return 'affinity-high';
-  if (v <= -5) return 'affinity-low';
-  return '';
-});
-
-// 关系网
-const acquaintanceList = computed(() => {
-  try {
-    return JSON.parse(store.data.关系.已结识角色) as { name: string; affinity: number; tag: string; realm?: string }[];
-  } catch {
-    return [];
-  }
-});
-function affinityTagClass(v: number): string {
-  if (v >= 8) return 'affinity-high';
-  if (v <= -5) return 'affinity-low';
-  return '';
-}
-
-// 任务
-const completedQuests = computed(() => {
-  try {
-    return JSON.parse(store.data.任务.已完成任务) as string[];
-  } catch {
-    return [];
-  }
-});
-const questCount = computed(() => {
+function countInventoryItems(inv: typeof store.data.储物袋): number {
   let n = 0;
-  if (store.data.任务.当前主线) n++;
-  if (store.data.任务.当前支线) n++;
-  n += completedQuests.value.length;
+  for (const cat of ['丹药', '法器', '材料', '功法书', '其他'] as const) {
+    n += (inv[cat] as unknown[]).length;
+  }
+  return n;
+}
+
+const bagCount = computed(() => countInventoryItems(store.data.储物袋));
+const warehouseCount = computed(() => countInventoryItems(store.data.仓库));
+
+const gongfaCount = computed(() => {
+  let n = store.data.功法系统.当前主修 ? 1 : 0;
+  n += Object.keys(store.data.功法系统.功法列表).length;
   return n;
 });
 
-// 折叠面板状态
+const questCount = computed(() => {
+  let n = store.data.任务.当前主线 ? 1 : 0;
+  n += store.data.任务.进行中支线.length;
+  n += store.data.任务.已完成任务.length;
+  return n;
+});
+
 const panels = reactive({
-  法宝: true,
+  女主角: true,
   储物袋: false,
-  当前角色: false,
-  关系网: false,
+  仓库: false,
+  功法: false,
   任务: false,
+  已结交: false,
 });
 </script>
 
@@ -215,149 +162,85 @@ const panels = reactive({
   font-size: 0.85rem;
 }
 
-.fa-bao-content {
-  padding: 10px;
+// 女主角
+.heroine-list {
+  padding: 6px;
 }
 
-.fa-bao-item {
-  background: linear-gradient(135deg, var(--c-gold), #e8d5a3);
-  border: 1.5px solid var(--c-granite);
-  padding: 8px 12px;
-  font-weight: bold;
-  text-align: center;
-}
-
-// 储物袋
-.storage-list {
-  padding: 8px;
-}
-
-.category-section {
-  margin-bottom: 6px;
-  border: 1.5px solid var(--c-grey-olive);
-}
-
-.category-header {
-  display: flex;
-  align-items: center;
+.heroine-item {
   padding: 6px 8px;
-  background: var(--c-mint-cream);
-  cursor: pointer;
-  user-select: none;
-
-  &:hover {
-    background: var(--c-ash-grey);
-  }
+  border-bottom: 1px dashed var(--c-ash-grey);
+  &:last-child { border-bottom: none; }
 }
 
-.category-icon {
-  width: 22px;
-  height: 22px;
-  background: var(--c-sky);
-  border: 1.5px solid var(--c-granite);
+.heroine-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: 0.65rem;
+  margin-bottom: 4px;
+}
+
+.heroine-name {
   font-weight: bold;
-  margin-right: 8px;
+  font-size: 0.9rem;
 }
 
-.category-name {
-  flex: 1;
-  font-weight: bold;
-  font-size: 0.85rem;
-}
-
-.category-count {
-  background: var(--c-granite);
-  color: #fff;
-  padding: 1px 6px;
-  font-size: 0.7rem;
-}
-
-.category-items {
-  padding: 4px 8px 8px 38px;
-}
-
-.storage-item {
-  padding: 3px 0;
-  font-size: 0.85rem;
-  border-bottom: 1px dashed var(--c-ash-grey);
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-// 角色信息
-.char-info {
-  padding: 10px;
-}
-
-.info-row {
-  display: flex;
-  padding: 4px 0;
-  border-bottom: 1px dashed var(--c-ash-grey);
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.info-label {
-  width: 60px;
-  font-weight: bold;
-  color: var(--c-grey-olive);
-  flex-shrink: 0;
-}
-
-.info-value {
-  flex: 1;
-}
-
-.affinity-high {
-  color: var(--c-celadon);
-  font-weight: bold;
-}
-
-.affinity-low {
-  color: var(--c-danger);
-  font-weight: bold;
-}
-
-// 关系网
-.relation-list {
-  padding: 8px;
-}
-
-.relation-item {
-  display: flex;
-  align-items: center;
-  padding: 5px 0;
-  border-bottom: 1px dashed var(--c-ash-grey);
-  gap: 8px;
-
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.rel-name {
-  font-weight: bold;
-  width: 80px;
-}
-
-.rel-affinity {
-  font-size: 0.8rem;
+.heroine-stage {
+  font-size: 0.75rem;
   padding: 1px 6px;
   background: var(--c-ash-grey);
+  &.stage-trust { background: var(--c-celadon); color: var(--c-granite); }
+  &.stage-bond { background: var(--c-gold); color: #fff; }
 }
 
-.rel-realm {
+.heroine-detail {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.detail-tag {
   font-size: 0.75rem;
+  padding: 1px 5px;
+  border: 1px solid var(--c-grey-olive);
+  &.tag-bond { background: var(--c-gold); border-color: var(--c-gold); color: #fff; }
+  &.tag-quest { background: var(--c-sky); border-color: var(--c-sky); }
+}
+
+// 功法
+.gongfa-section {
+  padding: 8px;
+}
+
+.gongfa-main {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  background: var(--c-ash-grey);
+  margin-bottom: 6px;
+}
+
+.gongfa-item {
+  display: flex;
+  gap: 6px;
+  padding: 4px 6px;
+  align-items: center;
+  border-bottom: 1px dashed var(--c-ash-grey);
+  &:last-child { border-bottom: none; }
+}
+
+.gongfa-name {
+  font-weight: bold;
+  flex: 1;
+}
+
+.detail-label {
+  font-weight: bold;
   color: var(--c-grey-olive);
-  margin-left: auto;
+}
+
+.detail-value {
+  flex: 1;
 }
 
 // 任务
@@ -369,10 +252,7 @@ const panels = reactive({
   display: flex;
   padding: 5px 0;
   border-bottom: 1px dashed var(--c-ash-grey);
-
-  &:last-child {
-    border-bottom: none;
-  }
+  &:last-child { border-bottom: none; }
 }
 
 .quest-label {
@@ -384,5 +264,33 @@ const panels = reactive({
 
 .quest-value {
   flex: 1;
+}
+
+// 已结交NPC
+.npc-list {
+  padding: 6px;
+}
+
+.npc-item {
+  padding: 6px 8px;
+  border-bottom: 1px dashed var(--c-ash-grey);
+  &:last-child { border-bottom: none; }
+}
+
+.npc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.npc-name {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.npc-detail {
+  display: flex;
+  gap: 6px;
 }
 </style>

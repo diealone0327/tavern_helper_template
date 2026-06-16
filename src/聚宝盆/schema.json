@@ -2,74 +2,94 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "主角": {
+    "系统": {
       "default": {},
       "type": "object",
       "properties": {
-        "修为": {
+        "日期": {
+          "default": "无记录",
+          "type": "string"
+        },
+        "时间": {
+          "default": "傍晚",
+          "type": "string"
+        },
+        "当前所在位置": {
+          "default": "青云宗后山·隐蔽山洞",
+          "type": "string"
+        },
+        "聚宝盆今日已用": {
+          "default": false,
+          "type": "boolean"
+        },
+        "主线进度": {
           "default": "炼气",
-          "type": "string",
-          "enum": [
-            "炼气",
-            "筑基",
-            "金丹",
-            "元婴",
-            "化神",
-            "炼虚",
-            "合体",
-            "大乘",
-            "渡劫飞升"
-          ]
-        },
-        "修为进度": {
-          "default": 1,
-          "type": "number"
-        },
-        "灵根": {
-          "default": "废灵根(五行杂灵根)",
-          "type": "string"
-        },
-        "体质": {
-          "default": "无",
-          "type": "string"
-        },
-        "灵石": {
-          "default": 10,
-          "type": "number"
-        },
-        "体质状态": {
-          "default": "正常",
-          "type": "string"
-        },
-        "穿着": {
-          "default": "一身洗得发白的粗布短打，脚穿草鞋",
-          "type": "string"
-        },
-        "随身法宝": {
-          "default": "无",
           "type": "string"
         }
       }
     },
-    "聚宝盆": {
+    "主角": {
       "default": {},
       "type": "object",
       "properties": {
-        "今日已使用": {
-          "default": false,
-          "type": "boolean"
+        "修为境界": {
+          "default": "炼气初期",
+          "type": "string"
         },
-        "已用次数": {
-          "default": 0,
+        "灵根品质": {
+          "default": "废灵根",
+          "type": "string"
+        },
+        "持有灵石": {
+          "default": 10,
           "type": "number"
         },
-        "上次放置": {
-          "default": "",
+        "状态": {
+          "default": "正常",
           "type": "string"
         },
-        "孳生品级": {
-          "default": "凡器极品",
+        "已修功法": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "功法系统": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "当前主修": {
+          "default": "青云吐纳诀",
           "type": "string"
+        },
+        "功法列表": {
+          "default": {},
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "品级": {
+                "type": "string"
+              },
+              "属性": {
+                "type": "string"
+              },
+              "熟练度": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "品级",
+              "属性",
+              "熟练度"
+            ]
+          }
         }
       }
     },
@@ -77,50 +97,320 @@
       "default": {},
       "type": "object",
       "properties": {
-        "物品清单": {
-          "default": "{\"丹药\":{},\"法器\":{},\"材料\":{},\"符箓\":{},\"灵植\":{},\"杂物\":{}}",
+        "丹药": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              },
+              "品级": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "名称",
+              "数量",
+              "品级"
+            ]
+          }
+        },
+        "法器": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              },
+              "品级": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "名称",
+              "数量",
+              "品级"
+            ]
+          }
+        },
+        "材料": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "名称",
+              "数量"
+            ]
+          }
+        },
+        "功法书": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "品级": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "名称",
+              "品级"
+            ]
+          }
+        },
+        "其他": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "名称",
+              "数量"
+            ]
+          }
+        }
+      }
+    },
+    "仓库": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "丹药": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              },
+              "品级": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "名称",
+              "数量",
+              "品级"
+            ]
+          }
+        },
+        "法器": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              },
+              "品级": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "名称",
+              "数量",
+              "品级"
+            ]
+          }
+        },
+        "材料": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "名称",
+              "数量"
+            ]
+          }
+        },
+        "功法书": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "品级": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "名称",
+              "品级"
+            ]
+          }
+        },
+        "其他": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "名称": {
+                "type": "string"
+              },
+              "数量": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "名称",
+              "数量"
+            ]
+          }
+        }
+      }
+    },
+    "柳如烟": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "好感度": {
+          "default": 1,
+          "type": "number"
+        },
+        "态度": {
+          "default": "冷漠",
           "type": "string"
         },
-        "物品总览": {
-          "default": "空空如也",
+        "好感阶段": {
+          "default": "初识",
+          "type": "string"
+        },
+        "羁绊触发": {
+          "default": false,
+          "type": "boolean"
+        },
+        "专属状态": {
+          "default": "普通",
           "type": "string"
         }
       }
     },
-    "关系": {
+    "苏青棠": {
       "default": {},
       "type": "object",
       "properties": {
-        "当前互动对象": {
-          "default": "",
-          "type": "string"
-        },
-        "当前角色好感度": {
-          "default": 0,
+        "好感度": {
+          "default": 1,
           "type": "number"
         },
-        "当前角色关系标签": {
-          "default": "陌路",
+        "态度": {
+          "default": "中立",
           "type": "string"
         },
-        "当前角色修为": {
-          "default": "",
+        "好感阶段": {
+          "default": "初识",
           "type": "string"
         },
-        "当前角色体质": {
-          "default": "",
+        "羁绊触发": {
+          "default": false,
+          "type": "boolean"
+        },
+        "专属状态": {
+          "default": "普通",
+          "type": "string"
+        }
+      }
+    },
+    "叶灵儿": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "好感度": {
+          "default": 3,
+          "type": "number"
+        },
+        "态度": {
+          "default": "友好",
           "type": "string"
         },
-        "当前角色状态描述": {
-          "default": "",
+        "好感阶段": {
+          "default": "初识",
           "type": "string"
         },
-        "已结识角色": {
-          "default": "[]",
+        "羁绊触发": {
+          "default": false,
+          "type": "boolean"
+        },
+        "专属状态": {
+          "default": "普通",
+          "type": "string"
+        }
+      }
+    },
+    "白素曦": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "好感度": {
+          "default": 1,
+          "type": "number"
+        },
+        "态度": {
+          "default": "戒备",
           "type": "string"
         },
-        "好感度概况": {
-          "default": "尚未与任何人建立深入关系",
+        "好感阶段": {
+          "default": "初识",
+          "type": "string"
+        },
+        "羁绊触发": {
+          "default": false,
+          "type": "boolean"
+        },
+        "专属状态": {
+          "default": "普通",
           "type": "string"
         }
       }
@@ -130,39 +420,94 @@
       "type": "object",
       "properties": {
         "当前主线": {
-          "default": "熟悉聚宝盆",
+          "default": "灵根升级",
           "type": "string"
         },
-        "当前支线": {
-          "default": "",
-          "type": "string"
+        "进行中支线": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "已完成任务": {
-          "default": "[]",
-          "type": "string"
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
-    "世界": {
-      "default": {},
-      "type": "object",
-      "properties": {
-        "天数": {
-          "default": 1,
-          "type": "number"
+    "已结交NPC": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "姓名": {
+            "type": "string"
+          },
+          "性别": {
+            "type": "string"
+          },
+          "外貌简述": {
+            "type": "string"
+          },
+          "修为": {
+            "type": "string"
+          },
+          "性格": {
+            "type": "string"
+          },
+          "好感度": {
+            "type": "number"
+          },
+          "态度": {
+            "type": "string"
+          },
+          "结识地点": {
+            "type": "string"
+          },
+          "结识原因": {
+            "type": "string"
+          },
+          "小任务": {
+            "default": "",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          },
+          "任务奖励": {
+            "default": "",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string",
+                "const": ""
+              }
+            ]
+          }
         },
-        "地点": {
-          "default": "青云宗·杂役院",
-          "type": "string"
-        },
-        "地区": {
-          "default": "东域",
-          "type": "string"
-        },
-        "事件标记": {
-          "default": "",
-          "type": "string"
-        }
+        "required": [
+          "姓名",
+          "性别",
+          "外貌简述",
+          "修为",
+          "性格",
+          "好感度",
+          "态度",
+          "结识地点",
+          "结识原因"
+        ]
       }
     }
   }

@@ -1,13 +1,14 @@
 <template>
   <div class="badge-bar">
-    <div class="badge-left">
-      <span class="badge-day">第 {{ store.data.世界.天数 }} 天</span>
-      <span class="badge-realm">{{ store.data.主角.修为 }}<span class="progress">{{ progressDisplay }}</span></span>
+    <div class="badge-top">
+      <span class="badge-realm">{{ store.data.主角.修为境界 }}</span>
+      <span class="badge-root">{{ store.data.主角.灵根品质 }}</span>
+      <span class="badge-status" :class="statusClass">{{ store.data.主角.状态 }}</span>
+      <span class="badge-bowl">{{ store.data.系统.聚宝盆今日已用 ? '盆已用' : '盆可用' }}</span>
     </div>
-    <div class="badge-right">
-      <span class="badge-location">{{ store.data.世界.地点 }}</span>
-      <span v-if="store.data.世界.地区" class="badge-region">{{ store.data.世界.地区 }}</span>
-      <span class="badge-lingshi">{{ store.data.主角.灵石 }} 灵石</span>
+    <div class="badge-bottom">
+      <span class="badge-location">{{ store.data.系统.当前所在位置 }}</span>
+      <span class="badge-lingshi">{{ store.data.主角.持有灵石 }} 灵石</span>
     </div>
   </div>
 </template>
@@ -17,57 +18,72 @@ import { useDataStore } from '../store';
 
 const store = useDataStore();
 
-const progressDisplay = computed(() => {
-  const progress = Number(store.data.主角.修为进度);
-  if (isNaN(progress) || progress <= 0) return '';
-  return progress >= 100 ? ' · 瓶颈' : ` · ${Math.round(progress)}%`;
+const statusClass = computed(() => {
+  const s = store.data.主角.状态;
+  if (s === '正常') return '';
+  if (s === '轻伤') return 'status-warn';
+  return 'status-danger';
 });
 </script>
 
 <style lang="scss" scoped>
 .badge-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 10px;
+  padding: 6px 10px;
   background: var(--c-granite);
   color: var(--c-mint-cream);
-  font-size: 0.85rem;
-  flex-wrap: wrap;
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 }
 
-.badge-left,
-.badge-right {
+.badge-top,
+.badge-bottom {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.badge-day {
-  font-weight: bold;
+  flex-wrap: wrap;
 }
 
 .badge-realm {
-  .progress {
-    color: var(--c-ash-grey);
-    font-size: 0.75rem;
-  }
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--c-gold);
+}
+
+.badge-root {
+  background: var(--c-sky);
+  color: var(--c-granite);
+  padding: 1px 6px;
+  font-weight: bold;
+  font-size: 0.72rem;
+}
+
+.badge-status {
+  padding: 1px 6px;
+  font-weight: bold;
+  font-size: 0.72rem;
+  border: 1px solid var(--c-mint-cream);
+  &.status-warn { color: var(--c-gold); border-color: var(--c-gold); }
+  &.status-danger { color: var(--c-danger); border-color: var(--c-danger); }
+}
+
+.badge-bowl {
+  margin-left: auto;
+  font-size: 0.72rem;
+  opacity: 0.8;
 }
 
 .badge-location {
+  flex: 1;
   font-weight: bold;
-}
-
-.badge-region {
-  font-size: 0.75rem;
-  color: var(--c-ash-grey);
+  font-size: 0.78rem;
 }
 
 .badge-lingshi {
   background: var(--c-gold);
   color: var(--c-granite);
-  padding: 1px 6px;
+  padding: 1px 7px;
   font-weight: bold;
   font-size: 0.75rem;
 }
