@@ -26,7 +26,7 @@
           "default": 10,
           "type": "number"
         },
-        "体质状态": {
+        "战斗状态": {
           "default": "正常",
           "type": "string"
         },
@@ -35,6 +35,14 @@
           "type": "string"
         },
         "随身法宝": {
+          "default": "无",
+          "type": "string"
+        },
+        "功法名称": {
+          "default": "无",
+          "type": "string"
+        },
+        "功法境界": {
           "default": "无",
           "type": "string"
         }

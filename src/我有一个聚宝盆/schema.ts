@@ -5,9 +5,11 @@ export const Schema = z.object({
     灵根: z.string().prefault('废灵根(五行杂灵根)'),
     体质: z.string().prefault('无'),
     灵石: z.coerce.number().prefault(10),
-    体质状态: z.string().prefault('正常'),
+    战斗状态: z.string().prefault('正常'),
     穿着: z.string().prefault('一身洗得发白的粗布短打，脚穿草鞋'),
     随身法宝: z.string().prefault('无'),
+    功法名称: z.string().prefault('无'),
+    功法境界: z.string().prefault('无'),
   }).prefault({}),
   聚宝盆: z.object({
     今日已使用: z.boolean().prefault(false),
