@@ -5,14 +5,22 @@
 }
 
 :root {
-  --c-granite: #3c493f;
-  --c-grey-olive: #7e8d85;
-  --c-ash-grey: #b3bfb8;
-  --c-mint-cream: #f0f7f4;
-  --c-celadon: #a2e3c4;
-  --c-sky: #b8d4e3;
-  --c-gold: #c9a96e;
-  --c-danger: #c46a6a;
-
-  --font-archive: 'Courier New', 'Microsoft YaHei', monospace;
+  --c-surface: #16182a;
+  --c-surface-elevated: #1e2140;
+  --c-surface-hover: #252848;
+  --c-border: #2a2d50;
+  --c-border-light: #3a3d6a;
+  --c-primary: #ffd700;
+  --c-text-primary: #e0e0f0;
+  --c-text-secondary: #c8cbe8;
+  --c-text-muted: #888aac;
+  --c-text-dim: #6a6e90;
+  --c-accent-blue: #60a5fa;
+  --c-accent-purple: #c084fc;
+  --c-accent-green: #4ade80;
+  --c-accent-red: #f87171;
+  --c-gradient-header: linear-gradient(135deg, #1e2140 0%, #2a2d50 100%);
+  --c-affinity-track: #2a2d50;
+  --c-affinity-fill: linear-gradient(90deg, #6366f1, #8b5cf6);
+  --font-body: system-ui, -apple-system, sans-serif;
 }
